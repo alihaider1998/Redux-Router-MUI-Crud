@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import "../styles/Login.css"
 import LeftIcon from '../assets/left.svg'
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { updateStatus } from "../features/LoginStatus";
-
+import axios from "axios";
+import { getUsers } from "../features/Users";
 
 function Login() {
   const userList = useSelector((state) => state.users.value);
@@ -13,6 +14,7 @@ function Login() {
   const dispatch = useDispatch();
 
   const login = () => {
+    var correct=false;
       userList.forEach(item => {
         if (item.username === document.getElementById("username").value 
         &&
@@ -20,11 +22,21 @@ function Login() {
           navigate("/table");
           localStorage.setItem("username", item.username);
           dispatch(updateStatus(true))
+      correct=true
         }
       });
-
-   
+      !correct ? alert("Wrong Username or Password")  : alert("Successfully Logged In")
   }
+  useEffect(() => {
+        axios.get("https://62ee420cc1ef25f3da85743b.mockapi.io/users").then(
+          (response) => {
+            dispatch(getUsers(response.data))
+          }).catch(
+          (error) => {
+            console.log(error)
+          })
+      
+     },[dispatch]); 
   return (
     <div>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossOrigin="anonymous" />

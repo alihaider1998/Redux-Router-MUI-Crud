@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Table.css"
 
+
 function Table() {
     const navigate = useNavigate();
     const userList = useSelector((state) => state.users.value);
@@ -47,12 +48,8 @@ function Table() {
         navigate("/");
     }
     useEffect(() => {
-        userList.forEach(item => {
-            if(item.username===localStorage.getItem("username")){
-                dispatch(updateStatus(true))
-            }
-          });    
-         });    return (
+        });    
+         return (
     <div className="mainDiv">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
